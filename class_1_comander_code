@@ -1,0 +1,53 @@
+win+R
+powershell
+pwd
+ls
+cd .\Desktop
+mkdir AI_class_1
+cd .\AI_class_1
+ni computer_class.txt
+"What is computation thinking?" >> computer.txt
+
+$word = New-Object -ComObject Word.Application
+$word.Visible = $false			
+$doc = $word.Documents.Add()		
+$doc.SaveAs("$PWD\Computational_thinking.docx", 16)
+$doc.Content.Text = “Computational thinking builds on the power and limits of computing processes”
+$doc.Save()
+Write-Host $doc.Content.Text
+$doc.Close()
+$word.Quit()
+
+Select-String “com" computer.txt
+"Computational thinking builds on the power and limits of computing processes" |    Set-Content –Path "$PWD\Computational_thinking_pipeline.txt"
+
+ls | Measure-Object | Select-Object Count
+ls | Sort-Object Length -Descending | Select-Object -First 2
+ls *.txt | Select-String “power”
+
+New-Object -ComObject Word.Application | ForEach-Object {
+    $word = $_
+    $word.Visible = $true
+    $doc = $word.Documents.Add()
+    $doc.SaveAs("$PWD\Geology.docx", 16)
+    $doc.Content.Text = “地质科学是一门涵盖岩石、矿物、地貌、地壳运动和地球历史等多个领域的综合性学科，专注于研究地球的物质组成、内部结构、演化历史及地球表层现象，旨在揭示地球的构造、演化过程及自然环境的多样性与演变。"
+    $doc.Save()
+    Write-Host $doc.Content.Text
+    $doc.Close()
+    $word.Quit()
+}
+
+New-Object -ComObject Word.Application | ForEach-Object {
+    $word = $_
+    $word.Visible = $false
+    $doc = $word.Documents.Open("$PWD\Geology.docx")
+    $doc.Content.InsertAfter("`n`n地质科学起源于社会对资源的需求，其初衷在于理性、高效地利用地球资源，人类生存环境的保护。其发展自然而然地受到了人类对地球资源渴求的驱动，并逐渐扩展至探讨地球资源的合理利用、资源与环境的相互关系及人类与地球的和谐可持续发展。")
+    $doc.Save()
+    Write-Host $doc.Content.Text
+    $doc.Close()
+    $word.Quit()
+}
+
+cat computer.txt
+
+$word = New-Object -ComObject Word.Application; $doc = $word.Documents.Open("$PWD\Geology.docx"); $doc.Content.Text; $doc.Close(); $word.Quit()
